@@ -1,0 +1,78 @@
+======================================================================
+KNAPSACK ALGORITHM BENCHMARK - ANALYSIS SUMMARY
+Generated: 2025-12-11 14:32:11
+======================================================================
+
+1. OVERALL STATISTICS
+----------------------------------------
+Total runs: 15
+Algorithms tested: 5
+Instances tested: 3
+Average gap to optimal: 0.93%
+Average execution time: 0.3276s
+
+2. BEST ALGORITHMS BY QUALITY (Lowest Gap)
+----------------------------------------
+  1. B&B-BFS: 0.00% average gap
+  2. DP-BottomUp: 0.00% average gap
+  3. FPTAS: 0.09% average gap
+  4. Greedy-Ratio: 2.10% average gap
+  5. Genetic: 2.47% average gap
+
+3. FASTEST ALGORITHMS (Average Time)
+----------------------------------------
+  1. Greedy-Ratio: 0.0000s average
+  2. B&B-BFS: 0.0024s average
+  3. DP-BottomUp: 0.0104s average
+  4. FPTAS: 0.2816s average
+  5. Genetic: 1.3437s average
+
+4. OPTIMAL SOLUTION RATE
+----------------------------------------
+  B&B-BFS: 100.0% optimal
+  DP-BottomUp: 100.0% optimal
+  Genetic: 33.3% optimal
+  FPTAS: 0.0% optimal
+  Greedy-Ratio: 0.0% optimal
+
+5. DETAILED ALGORITHM STATISTICS
+----------------------------------------
+
+  Greedy-Ratio:
+    - Avg Gap: 2.10%
+    - Min Gap: 0.92%
+    - Max Gap: 3.61%
+    - Avg Time: 0.0000s
+    - Max Time: 0.0000s
+
+  DP-BottomUp:
+    - Avg Gap: 0.00%
+    - Min Gap: 0.00%
+    - Max Gap: 0.00%
+    - Avg Time: 0.0104s
+    - Max Time: 0.0109s
+
+  B&B-BFS:
+    - Avg Gap: 0.00%
+    - Min Gap: 0.00%
+    - Max Gap: 0.00%
+    - Avg Time: 0.0024s
+    - Max Time: 0.0058s
+
+  FPTAS:
+    - Avg Gap: 0.09%
+    - Min Gap: -0.02%
+    - Max Gap: 0.17%
+    - Avg Time: 0.2816s
+    - Max Time: 0.3156s
+
+  Genetic:
+    - Avg Gap: 2.47%
+    - Min Gap: 0.00%
+    - Max Gap: 4.51%
+    - Avg Time: 1.3437s
+    - Max Time: 1.4334s
+
+======================================================================
+END OF REPORT
+======================================================================

@@ -1,0 +1,300 @@
+
+--- Page 1 ---
+Advanced algorithms
+Master DSC/MLDM
+Project - 2025-2026
+1
+Description
+The objective of this project is to implement some algorithms for solving the Knapsack Problem and
+to provide an experimental study of their running time and quality. Unless otherwise specified, the
+version of the Knapsack considered is the 0/1-Knapsack.
+https://en.wikipedia.org/wiki/Knapsack_problem
+2
+Work to do
+You must program different algorithms for the Knapsack problem, including:
+• The brute-force approach exploring all the possible solutions in a systematic way.
+• A Branch-and-Bound version, to be designed on your own (you can actually work on multiple
+versions)
+• The three greedy approaches seen in the exercise sheet (this counts for one method)
+• The approximation based on the fractional Knapsack seen in the exercise sheet.
+• The dynamic programming approach seen in the exercise sheet and the top-down version that
+optimize the number of calls (see the Wikipedia page)
+• The Fully polynomial time approximation scheme (see the Wikipedia page)
+• A version based on a randomized approach.
+• A version based on a genetic programming or ant colony approach.
+• Another personal version of you choice, it could be another branch and bound solution but
+different from the first one.
+Note that all the algorithms must be able to output the solution - i.e. the set of items selected and
+the value of the proposed solution.
+The running time of the algorithms and the quality of the solutions given (in terms of optimality)
+have to be evaluated on problems of different sizes and structure (i.e. with different number of items,
+different types of weights, different of values, . . . ).
+For this purpose, you can implement a random generator that can automatically create some
+Knapsack problems. It can take into account options like (different) distributions on the weights and
+values of the objects.
+Your evaluation must also include existing benchmarks where the optimal solution is generally known
+(you may propose other existing databases). For existing problems, please take a look at the following
+links:
+• The OR library https://people.brunel.ac.uk/~mastjjb/jeb/orlib/mknapinfo.html. Note
+that this problem uses multiple constraints on the weights.
+You could start with only one
+constraint; said differently, each constraint can represent a novel instance of the problem.
+1
+
+--- Page 2 ---
+• The Dynamic-MKP-Benchmark-Datasets
+https://github.com/jonasska/Dynamic-MKP-Benchmark-Datasets, you can consult the re-
+lated paper: https://bura.brunel.ac.uk/bitstream/2438/24262/5/FullText.pdf.
+Here,
+the setting is different. It is assumed that the weights and/or values evolve over time. Do not
+consider this setting, but you can consider other instances from it.
+You have to provide a full and rigorous experimental study to compare the different algorithms
+and illustrate the strong and weak points of each them. In particular, it is expected that the
+efficiency and the quality of the solutions are studied with care. In the report, it is expected
+that all the algorithms used are presented clearly with their specificities/properties, notably
+those not seen in class, and that the experimental setup is precisely indicated and accompanied
+with a thorough analysis of the results.
+Note also that you will have to present your project during a defense that lasts 15 minutes,
+no more. The main objective is then not to re-explain the algorithms already seen in class,
+but rather to present and explain your results. There will be a long period of time dedicated
+to questions and exchanges with the group.
+A graphical user interface could be proposed to illustrate the behavior of the algorithm(s), but
+this is not required and must be done after the implementation of the algorithms.
+The project can be done in a group from 4 to 5 students, and each student must program at
+least one algorithm. It is recommended to maximize the number of students of the same master
+track in each group to ensure a similar availability between group members. You are free to use any
+programming language among: python, C, C++, java, javascript, ... ; but note that your code must
+be easily run on a standard machine and that your experiments should make fair comparisons. The
+submitted code must clearly understandable to you and other persons. You must be able
+to explain and justify each part of the code: your understanding and ability to explain
+your solution will be evaluated.
+3
+What to send
+Each group must upload before Thursday November 06, 22:00 a text containing the members
+of the group on moodle, in the Group Description 25-26 resource. This text must also contain a
+provisional planning giving the milestones of the project with the tasks to achieve, the repartition
+between the group members and the time deserved to each task, if possible the group can mention the
+procedures used for testing and evaluating the programs. The ability to respect the schedule will not
+be used for evaluating the grade, but during the defense the students must present the real planning
+and discuss the reasons why the project has run late. The group must also indicate the workload
+between the members of the group in percentage1. Finally, the group must include the checklist pro-
+vided at the end of the document in the report and states for each question what has been done (or
+not). The questions of the checklist cannot be modified. The quality of the presentation (report, oral,
+...) and the quality of the source code will be taken into account.
+Erick Gomez will supervise the advancement of the project, you will have 6 meetings for dis-
+cussing your achievements. Note that all the questions and mails related to the project must
+be sent to him: erick.gary.gomez.soto@univ-st-etienne.fr.
+1For a group of 4 students, if the workload was the same for every member, the group will indicate 25% for each,
+otherwise the group must give the distribution of the workload between the group members such that the quantities
+given sum up to 100%.
+2
+
+--- Page 3 ---
+The final version of the projects must be uploaded on Moodle, in the Project archive 25-26
+resource, before Tuesday December 16, 22:00, in a .zip or .tar.gz archive, well-
+organized. It must include the source code of the programs, information for installing and using
+them, and a report in PDF format. A project defense will scheduled on Friday December 19 morn-
+ing or afternoon (the exact schedule will be given later), be careful to come to the defense with a
+working implementation and a presentation. The slides must be uploaded on moodle just before your
+defense on December 19.
+Grade scaling:
+• at least 6/20 : greedy (0/1) and dynamic programming versions must work correctly, and be
+evaluated in a rigorous manner on artificial data, report and source code must be presented
+neatly.
+• at least 10/20 : each member of the group must program a different approach (including brute-
+force, branch-and-bound, greedy approach, dynamic programming), experimental evaluations on
+artificial data must be rigorous, 4 problems from a benchmark must be considered, source code
+and report must be presented neatly and the answers to the questions must be correct.
+• at least 12/20 : in addition to the previous point, evaluate the algorithms on a large part of the
+benchmark databases and implement another method (the number of methods must be higher
+than the size of the group), experimental setup should be clear and results commented.
+• at least 14/20 : in addition to the previous point, implement two new methods, and process
+a larger part of the benchmark database, source code and report must be extremely neat and
+clear. The experimental setup should be very clear and convincing and with thorough comments
+on the results.
+• at least 16/20 : program all the algorithms, process an important part of the external P database
+and try to find on which problem instances each method is efficient. Try to propose a modeling
+of real problem into the Knapsack problem and solve it with your algorithms. You can also
+propose a graphical interface.
+Note that for a given grade, the absence of one element can be compensated by the addition of an
+element associated to a higher grade. Note that if the full check list is not included in the report and
+commented, nor the provisional and real plannings, the grade can be divided by 2.
+Be careful, the grading scale is given for information purposes. In particular it does not
+take into account the quality of the oral defense and the answers to questions.
+Please, feel free to reread all these instructions regularly.
+3
+
+--- Page 4 ---
+Checklist
+1. Did you proofread your report?
+2. Did you present the global objectif of your work?
+3. Did you present the principles of all the methods/algorithms used in your project?
+4. Did you cite correctly the references to the methods/algorithms that are not from your own?
+5. Did you include all the details of your experimental setup to reproduce the experimental results,
+and explain the choice of the parameters taken?
+6. Did you provide curves, numerical results and error bars when results are run multiple times?
+7. Did you comment and interpret the different results presented?
+8. Did you include all the data, code, installation and running instructions needed to reproduce
+the results?
+9. Did you engineer the code of all the programs in a unified way to facilitate the addition of new
+methods/techniques and debugging?
+10. Did you make sure that the results different experiments and programs are comparable?
+11. Did you comment sufficiently your code?
+12. Did you add a thorough documentation on the code provided?
+13. Did you provide the additional planning and the final planning in the report and discuss orga-
+nization aspects in your work?
+14. Did you describe precisely in the report the algorithms that were not seen in class?
+15. Did you provide the workload percentage between the members of the group in the report?
+16. Did you send the work in time?
+4
+
+--- Page 5 ---
+Suggested Guideline for Grading Scale
+Use this checklist to verify your progress toward different grade levels. Mark each item as completed
+or not completed.
+Target
+Grade
+Requirement
+Yes/No
+Minimum Requirements (6/20)
+6/20
+Greedy (0/1) algorithm implemented and working correctly
+6/20
+Dynamic programming algorithm implemented and working correctly
+6/20
+Rigorous evaluation on artificial/generated data
+6/20
+Report presented neatly
+6/20
+Source code presented neatly
+Good Level (10/20)
+10/20
+Each group member programmed a different approach
+10/20
+Brute-force algorithm implemented
+10/20
+Branch-and-bound algorithm implemented
+10/20
+Greedy approach implemented (all three variants count as one)
+10/20
+Dynamic programming approach implemented
+10/20
+Rigorous experimental evaluations on artificial data
+10/20
+At least 4 problems from benchmark databases tested
+10/20
+Source code and report presented neatly
+10/20
+All checklist questions answered correctly
+Very Good Level (12/20)
+12/20
+All previous requirements (6/20 and 10/20) satisfied
+12/20
+Algorithms evaluated on large part of benchmark databases
+12/20
+Clear experimental setup with comments on the results
+12/20
+One additional method implemented (total methods > group size)
+Excellent Level (14/20)
+14/20
+All previous requirements (up to 12/20) satisfied
+14/20
+Two additional new methods implemented
+14/20
+Larger part of benchmark database processed
+14/20
+Very clear and convincing experimental setup with thorough comments
+on the results
+14/20
+Source code extremely neat and clear
+14/20
+Report extremely neat and clear
+Outstanding Level (16/20)
+16/20
+All algorithms from the list programmed
+16/20
+Important part of external benchmark database processed
+16/20
+Analysis of which method is efficient for which problem instances
+16/20
+Modeling of a real problem into Knapsack problem
+16/20
+Real problem solved with your algorithms
+16/20
+(Optional) Graphical user interface proposed
+5
+
+--- Page 6 ---
+Additional Algorithms to Implement (as listed in Section 2):
+• Brute-force approach
+• Branch-and-bound version(s)
+• Three greedy approaches
+• Approximation based on fractional Knapsack
+• Dynamic programming (standard and top-down optimized)
+• Fully polynomial time approximation scheme (FPTAS)
+• Randomized approach
+• Genetic programming or ant colony approach
+• Personal version of your choice
+Important Note: Remember that absence of one element can be compensated by addition of an
+element from a higher grade level. Ensure the full Project Completion Checklist is included and
+commented in your report.
+6
+
+--- Page 7 ---
+Project Completion Checklist
+This checklist must be completed and included in your report. Mark each item and provide relevant
+comments or observations.
+✓or ✗
+Requirement
+Comments/Observations
+Did you proofread your report?
+Did you present the global objective of your work?
+Did
+you
+present
+the
+principles
+of
+all
+the
+meth-
+ods/algorithms used in your project?
+Did
+you
+cite
+correctly
+the
+references
+to
+the
+meth-
+ods/algorithms that are not from your own?
+Did you include all the details of your experimental setup to
+reproduce the experimental results, and explain the choice
+of the parameters taken?
+Did you provide curves, numerical results and error bars
+when results are run multiple times?
+Did you comment and interpret the different results pre-
+sented?
+Did you include all the data, code, installation and running
+instructions needed to reproduce the results?
+Did you engineer the code of all the programs in a unified
+way to facilitate the addition of new methods/techniques
+and debugging?
+Did you make sure that the results of different experiments
+and programs are comparable?
+Did you comment sufficiently your code?
+Did you add a thorough documentation on the code pro-
+vided?
+Did you provide the provisional planning and the final plan-
+ning in the report and discuss organization aspects in your
+work?
+Did you describe precisely in the report the algorithms that
+were not seen in class?
+Did you provide the workload percentage between the mem-
+bers of the group in the report?
+Did you send the work in time?
+Warning: If the full checklist is not included in the report and commented on, nor the provisional
+(the one you are supposed to sent by Thursday November 06) and real plannings (the real task
+distribution), the grade can be divided by 2.
+7
