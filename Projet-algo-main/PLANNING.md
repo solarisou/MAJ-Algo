@@ -30,7 +30,7 @@
 | **S3** | 20-26 Nov | [OK] FPTAS + Approximation fractionnelle | - | 8h |
 | **S4** | 27 Nov-03 Déc | [OK] Genetic + Ant Colony | Paramétrage difficile | 14h |
 | **S4** | 27 Nov-03 Déc | [OK] Randomized | - | 6h |
-| **S5** | 04-10 Déc | [OK] B&B Least-Cost + IDDFS | - | 8h |
+| **S5** | 04-10 Déc | [OK] B&B Least-Cost | - | 8h |
 | **S5** | 04-10 Déc | [OK] Intégration instances Pisinger | Formats différents | 10h |
 | **S6** | 11-16 Déc | [OK] Benchmark complet + visualisations | - | 15h |
 | **S6** | 11-16 Déc | [OK] Générateur de problèmes | - | 5h |
@@ -76,7 +76,7 @@
 |--------|------------------------|---------------------|-----------|
 | **Membre 1** | Brute-Force, Randomized | Tests unitaires | 20% |
 | **Membre 2** | DP (Bottom-Up, Top-Down) | Loader instances | 20% |
-| **Membre 3** | B&B (BFS, DFS, LC, IDDFS) | Benchmark system | 25% |
+| **Membre 3** | B&B (BFS, DFS, LC) | Benchmark system | 25% |
 | **Membre 4** | FPTAS, Fractional Approx | Visualisations | 20% |
 | **Membre 5** | Genetic, Ant Colony | Rapport, Documentation | 15% |
 

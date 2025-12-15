@@ -43,7 +43,7 @@ Cette checklist doit être complétée et incluse dans le rapport. Marquez chaqu
 |----------|--------|-------------|
 | Chaque membre a programmé une approche différente | [OK] | 5 membres, 12 algorithmes |
 | Brute-force implémenté | [OK] | Avec élagage précoce |
-| Branch-and-bound implémenté | [OK] | 4 versions : BFS, DFS, Least-Cost, IDDFS |
+| Branch-and-bound implémenté | [OK] | 3 versions : BFS, DFS, Least-Cost |
 | Approche Greedy implémentée | [OK] | 3 variantes comptant comme 1 méthode |
 | Programmation dynamique implémentée | [OK] | 2 versions + optimisation espace |
 | Évaluations expérimentales rigoureuses | [OK] | Timeout, répétitions, statistiques |
@@ -78,8 +78,6 @@ Cette checklist doit être complétée et incluse dans le rapport. Marquez chaqu
 | Tous les algorithmes de la liste programmés | [OK] | Brute-force, B&B (4 versions), Greedy (3), DP (2), FPTAS, Fractional, Genetic, Ant Colony, Randomized |
 | Partie importante des benchmarks externes traitée | [OK] | Instances Pisinger complètes |
 | Analyse de quelle méthode est efficace pour quelles instances | [OK] | Voir visualisations et rapport |
-| Modélisation d'un problème réel en Knapsack | [OK] | Exemple : allocation de budget marketing |
-| Problème réel résolu avec les algorithmes | [OK] | Voir `real_world_example.py` |
 | Interface graphique (optionnel) | [--] | Non prioritaire |
 
 ---
@@ -106,7 +104,7 @@ Cette checklist doit être complétée et incluse dans le rapport. Marquez chaqu
 2. [OK] **Branch-and-Bound BFS** - Best-First Search
 3. [OK] **Branch-and-Bound DFS** - Depth-First Search  
 4. [OK] **Branch-and-Bound Least-Cost** - Borne Martello-Toth
-5. [OK] **Branch-and-Bound IDDFS** - Iterative Deepening
+
 6. [OK] **Greedy Ratio** - Sélection par ratio v/w
 7. [OK] **Greedy Value** - Sélection par valeur
 8. [OK] **Greedy Weight** - Sélection par poids croissant

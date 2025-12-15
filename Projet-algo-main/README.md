@@ -29,7 +29,7 @@ Projet-algo/
 │   │   ├── bruteforce.py           # Force brute O(2^n)
 │   │   ├── dynamic_programming.py  # DP Bottom-Up et Top-Down O(nW)
 │   │   ├── greedy.py               # Algorithmes gloutons O(n log n)
-│   │   ├── branch_and_bound.py     # Branch & Bound (BFS/DFS/LC/IDDFS)
+│   │   ├── branch_and_bound.py     # Branch & Bound (BFS/DFS/LC)
 │   │   ├── fractional_approximation.py  # Approximation fractionnaire
 │   │   ├── fptas.py                # FPTAS O(n³/ε)
 │   │   ├── genetic.py              # Algorithme génétique
@@ -249,7 +249,7 @@ Les graphiques seront sauvegardés dans `results/graphs/`.
 | Algorithme | Stratégie | Description |
 |------------|-----------|-------------|
 | **B&B Least-Cost** | Borne Martello-Toth | Borne supérieure plus serrée |
-| **B&B IDDFS** | Iterative Deepening | Mémoire limitée, optimalité |
+
 
 ### Algorithmes d'Approximation (4)
 
