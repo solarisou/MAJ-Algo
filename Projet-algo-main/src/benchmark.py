@@ -6,6 +6,7 @@ Utilise les instances Pisinger depuis GitHub
 import time
 import os
 import sys
+import random
 from typing import Dict, List, Tuple, Callable, Optional
 from dataclasses import dataclass
 
@@ -13,6 +14,108 @@ from dataclasses import dataclass
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils.instance_loader import PisingerInstanceLoader, KnapsackInstance
+
+
+def generate_tiny_instances() -> List[KnapsackInstance]:
+    """Génère des petites instances (n=10,15,20) pour tester le Brute-Force"""
+    random.seed(42)  # Reproductibilité
+    instances = []
+    
+    for n in [10, 15, 20]:
+        weights = [random.randint(1, 50) for _ in range(n)]
+        values = [random.randint(10, 100) for _ in range(n)]
+        capacity = sum(weights) // 3
+        
+        # Calculer l'optimal avec DP
+        optimal = _compute_dp_optimal(weights, values, capacity)
+        
+        instances.append(KnapsackInstance(
+            name=f"tiny_{n}",
+            n=n,
+            capacity=capacity,
+            values=values,
+            weights=weights,
+            optimal_value=optimal,
+            optimal_solution=None
+        ))
+    
+    return instances
+
+
+def load_generated_instances() -> List[KnapsackInstance]:
+    """Charge les instances depuis le dossier data/generated/"""
+    instances = []
+    generated_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'generated')
+    
+    if not os.path.exists(generated_dir):
+        print(f"[INFO] Dossier {generated_dir} non trouvé")
+        return instances
+    
+    for filename in os.listdir(generated_dir):
+        if not filename.endswith('.txt'):
+            continue
+        
+        filepath = os.path.join(generated_dir, filename)
+        try:
+            with open(filepath, 'r') as f:
+                lines = f.readlines()
+            
+            # Format: n, capacity, optimal_value, puis paires (weight, value)
+            n = int(lines[0].strip())
+            capacity = int(lines[1].strip())
+            
+            # Vérifier si la ligne 3 est l'optimal ou déjà un item
+            line3 = lines[2].strip().split()
+            if len(line3) == 1:
+                # Nouveau format avec optimal
+                optimal_value = int(line3[0])
+                start_items = 3
+            else:
+                # Ancien format sans optimal - calculer avec DP
+                optimal_value = None
+                start_items = 2
+            
+            weights = []
+            values = []
+            
+            for line in lines[start_items:start_items + n]:
+                parts = line.strip().split()
+                if len(parts) >= 2:
+                    weights.append(int(parts[0]))
+                    values.append(int(parts[1]))
+            
+            # Si pas d'optimal, le calculer avec DP
+            if optimal_value is None:
+                optimal_value = _compute_dp_optimal(weights, values, capacity)
+            
+            instances.append(KnapsackInstance(
+                name=f"generated_{filename.replace('.txt', '')}",
+                n=n,
+                capacity=capacity,
+                values=values,
+                weights=weights,
+                optimal_value=optimal_value,
+                optimal_solution=None
+            ))
+            print(f"  [OK] Chargé: {filename} (n={n}, OPT={optimal_value})")
+            
+        except Exception as e:
+            print(f"  [ERREUR] {filename}: {e}")
+    
+    return instances
+
+
+def _compute_dp_optimal(weights, values, capacity):
+    """Calcule l'optimal avec DP (pour les fichiers sans optimal)"""
+    n = len(weights)
+    dp = [0] * (capacity + 1)
+    for i in range(n):
+        w, v = weights[i], values[i]
+        for c in range(capacity, w - 1, -1):
+            dp[c] = max(dp[c], dp[c - w] + v)
+    return dp[capacity]
+
+
 from src.utils.solution_validator import validate_solution, compare_with_optimal
 
 from src.algorithms.bruteforce import bruteforce_knapsack
@@ -21,8 +124,7 @@ from src.algorithms.greedy import greedy_algorithm_ratio
 from src.algorithms.branch_and_bound import (
     branch_and_bound_bfs, 
     branch_and_bound_dfs,
-    branch_and_bound_least_cost,
-    branch_and_bound_iterative_deepening
+    branch_and_bound_least_cost
 )
 from src.algorithms.fractional_approximation import (
     fractional_knapsack_approximation, 
@@ -62,7 +164,8 @@ class KnapsackBenchmark:
         """Initialise les algorithmes à tester"""
         
         def bruteforce_wrapper(w, v, c):
-            if len(w) > 22:
+            # Augmente la limite pour ne jamais lancer le bruteforce (sauf tiny)
+            if len(w) > 10:
                 return None, None, None
             val, items = bruteforce_knapsack(v, w, c)
             wt = sum(w[i] for i in items)
@@ -87,9 +190,7 @@ class KnapsackBenchmark:
             'DP-TopDown': dp_td_wrapper,
             'Greedy-Ratio': greedy_algorithm_ratio,
             'B&B-BFS': branch_and_bound_bfs,
-            'B&B-DFS': branch_and_bound_dfs,
             'B&B-LeastCost': branch_and_bound_least_cost,
-            'B&B-IDDFS': branch_and_bound_iterative_deepening,
             'Fractional': fractional_knapsack_approximation,
             'Fractional+': fractional_knapsack_with_full_item,
             'FPTAS': fptas_wrapper,
@@ -174,7 +275,7 @@ class KnapsackBenchmark:
         Exécute le benchmark complet.
         
         Args:
-            categories: catégories d'instances ('small', 'medium', 'large')
+            categories: catégories d'instances ('tiny', 'small', 'medium', 'large', 'generated')
             algorithms: liste des algorithmes à tester
             download_if_missing: télécharger les instances manquantes
         """
@@ -186,19 +287,39 @@ class KnapsackBenchmark:
         
         # Charger les instances
         print("=" * 70)
-        print("BENCHMARK KNAPSACK - INSTANCES PISINGER")
+        print("BENCHMARK KNAPSACK")
         print("=" * 70)
         
-        instances = self.loader.get_all_instances(
-            categories, 
-            download_if_missing=download_if_missing
-        )
+        instances = []
+        
+        # Ajouter les instances tiny si demandé
+        if 'tiny' in categories:
+            tiny = generate_tiny_instances()
+            instances.extend(tiny)
+            print(f"\n{len(tiny)} instances tiny générées pour Brute-Force")
+            categories = [c for c in categories if c != 'tiny']
+        
+        # Ajouter les instances generated si demandé
+        if 'generated' in categories:
+            print("\nChargement des instances générées...")
+            generated = load_generated_instances()
+            instances.extend(generated)
+            print(f"{len(generated)} instances generated chargées")
+            categories = [c for c in categories if c != 'generated']
+        
+        # Charger les instances Pisinger (small, medium, large)
+        if categories:
+            pisinger_instances = self.loader.get_all_instances(
+                categories, 
+                download_if_missing=download_if_missing
+            )
+            instances.extend(pisinger_instances)
         
         if not instances:
             print("[ERREUR] Aucune instance trouvée!")
             return []
         
-        print(f"\n{len(instances)} instances chargées")
+        print(f"\n{len(instances)} instances chargées au total")
         print(f"{len(algorithms)} algorithmes à tester\n")
         
         results = []
@@ -228,9 +349,14 @@ class KnapsackBenchmark:
         self.results = results
         return results
     
-    def save_results(self, filepath: str = "results/benchmark_results.csv"):
+    def save_results(self, filepath: str = None):
         """Sauvegarde les résultats au format CSV"""
         import csv
+        
+        # Chemin absolu dans le dossier Projet-algo/results/
+        if filepath is None:
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            filepath = os.path.join(base_dir, 'results', 'benchmark_results.csv')
         
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
         
@@ -294,13 +420,13 @@ class KnapsackBenchmark:
 
 
 def run_quick_benchmark():
-    """Exécute un benchmark rapide sur les petites instances"""
+    """Exécute un benchmark rapide sur les petites instances avec tous les algorithmes"""
     benchmark = KnapsackBenchmark()
     
-    # Seulement small et quelques medium pour un test rapide
+    # Petites instances seulement mais avec TOUS les algorithmes
     benchmark.run_benchmark(
-        categories=['small'],
-        algorithms=['Greedy-Ratio', 'DP-BottomUp', 'B&B-BFS', 'FPTAS', 'Genetic']
+        categories=['small']
+        # Pas de filtre sur algorithms = tous les algorithmes
     )
     
     benchmark.print_summary()

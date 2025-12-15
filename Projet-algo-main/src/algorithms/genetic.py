@@ -8,25 +8,36 @@ from typing import List, Tuple
 
 
 def genetic_knapsack(weights: List[int], values: List[int], capacity: int,
-                     pop_size: int = 80, generations: int = 300,
-                     mutation_rate: float = 0.02, 
-                     tournament_size: int = 4) -> Tuple[List[int], int, int]:
+                     pop_size: int = None, generations: int = None,
+                     mutation_rate: float = 0.05, 
+                     tournament_size: int = 5,
+                     elitism: int = None) -> Tuple[List[int], int, int]:
     """
-    Algorithme génétique pour le knapsack 0/1.
+    Algorithme genetique pour le knapsack 0/1.
+    Parametres adaptes automatiquement a la taille du probleme.
     
     Args:
         weights: liste des poids
         values: liste des valeurs
-        capacity: capacité du sac
-        pop_size: taille de la population
-        generations: nombre de générations
+        capacity: capacite du sac
+        pop_size: taille de la population (auto si None)
+        generations: nombre de generations (auto si None)
         mutation_rate: taux de mutation
-        tournament_size: taille du tournoi de sélection
+        tournament_size: taille du tournoi de selection
+        elitism: nombre d'elites conservees (auto si None)
         
     Returns:
-        Tuple (indices_sélectionnés, valeur_totale, poids_total)
+        Tuple (indices_selectionnes, valeur_totale, poids_total)
     """
     n = len(weights)
+    
+    # Parametres adaptatifs - equilibre temps/qualite
+    if pop_size is None:
+        pop_size = min(80, max(30, n))
+    if generations is None:
+        generations = min(100, max(50, n))
+    if elitism is None:
+        elitism = max(2, pop_size // 10)
     
     if n == 0:
         return [], 0, 0
@@ -78,19 +89,37 @@ def genetic_knapsack(weights: List[int], values: List[int], capacity: int,
             if random.random() < mutation_rate:
                 individual[i] = 1 - individual[i]
     
-    # Initialisation
-    population = [repair(random_individual()) for _ in range(pop_size)]
-    best_global = None
+    # Initialisation avec solution greedy pour demarrer
+    population = []
     
-    # Évolution
-    for _ in range(generations):
+    # Ajouter une solution greedy comme point de depart
+    greedy_sol = [0] * n
+    items_sorted = sorted(range(n), key=lambda i: values[i]/weights[i] if weights[i] > 0 else 0, reverse=True)
+    remaining = capacity
+    for i in items_sorted:
+        if weights[i] <= remaining:
+            greedy_sol[i] = 1
+            remaining -= weights[i]
+    population.append(greedy_sol)
+    
+    # Remplir avec des individus aleatoires
+    while len(population) < pop_size:
+        population.append(repair(random_individual()))
+    
+    best_global = max(population, key=fitness)
+    
+    # Evolution
+    for gen in range(generations):
         new_population = []
         
-        # Élitisme
-        best = max(population, key=fitness)
-        if best_global is None or fitness(best) > fitness(best_global):
-            best_global = best[:]
-        new_population.append(best_global[:])
+        # Elitisme: garder les meilleurs
+        sorted_pop = sorted(population, key=fitness, reverse=True)
+        for i in range(elitism):
+            new_population.append(sorted_pop[i][:])
+        
+        # Mettre a jour le meilleur global
+        if fitness(sorted_pop[0]) > fitness(best_global):
+            best_global = sorted_pop[0][:]
         
         # Reproduction
         while len(new_population) < pop_size:

@@ -8,7 +8,7 @@ from typing import List, Tuple
 
 
 def fptas_knapsack(weights: List[int], values: List[int], 
-                   capacity: int, eps: float = 0.1) -> Tuple[List[int], int, int]:
+                   capacity: int, eps: float = None) -> Tuple[List[int], int, int]:
     """
     FPTAS pour le knapsack 0/1.
     
@@ -18,14 +18,23 @@ def fptas_knapsack(weights: List[int], values: List[int],
         weights: liste des poids (entiers)
         values: liste des valeurs (entiers)
         capacity: capacité du sac (entier)
-        eps: tolérance d'approximation (0 < eps < 1)
+        eps: tolérance d'approximation (auto si None)
         
     Returns:
         Tuple (indices_sélectionnés, valeur_totale, poids_total)
     """
-    assert 0 < eps < 1, "eps doit être dans (0, 1)"
-    
     n = len(weights)
+    
+    # Epsilon adaptatif selon la taille (montre le compromis precision/temps)
+    if eps is None:
+        if n <= 100:
+            eps = 0.05   # Très précis pour petites instances
+        elif n <= 300:
+            eps = 0.1    # Bon compromis
+        else:
+            eps = 0.15   # Légèrement plus rapide pour n>300
+    
+    assert 0 < eps < 1, "eps doit être dans (0, 1)"
     
     if n == 0:
         return [], 0, 0

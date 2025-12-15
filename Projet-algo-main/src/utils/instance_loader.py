@@ -30,15 +30,30 @@ class KnapsackInstance:
 
 
 # URLs de base pour les instances Pisinger
-GITHUB_RAW_BASE = "https://raw.githubusercontent.com/dnlfm/knapsack-01-instances/main/pisinger_instances_01_KP/large_scale"
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com/dnlfm/knapsack-01-instances/main"
 
 # Liste des instances disponibles par catégorie
 PISINGER_INSTANCES = {
+    # === Instances Low-Dimensional (petites, ideales pour tests) ===
+    'low_dimensional': [
+        'f1_l-d_kp_10_269',
+        'f2_l-d_kp_20_878',
+        'f3_l-d_kp_4_20',
+        'f4_l-d_kp_4_11',
+        'f5_l-d_kp_15_375',
+        'f6_l-d_kp_10_60',
+        'f7_l-d_kp_7_50',
+        'f8_l-d_kp_23_10000',
+        'f9_l-d_kp_5_80',
+        'f10_l-d_kp_20_879',
+    ],
+    # === Instances Small (n=100) ===
     'small': [
         'knapPI_1_100_1000_1',
         'knapPI_2_100_1000_1',
         'knapPI_3_100_1000_1',
     ],
+    # === Instances Medium (n=200-500) ===
     'medium': [
         'knapPI_1_200_1000_1',
         'knapPI_2_200_1000_1',
@@ -47,6 +62,7 @@ PISINGER_INSTANCES = {
         'knapPI_2_500_1000_1',
         'knapPI_3_500_1000_1',
     ],
+    # === Instances Large (n=1000-2000) ===
     'large': [
         'knapPI_1_1000_1000_1',
         'knapPI_2_1000_1000_1',
@@ -55,6 +71,7 @@ PISINGER_INSTANCES = {
         'knapPI_2_2000_1000_1',
         'knapPI_3_2000_1000_1',
     ],
+    # === Instances Very Large (n=5000-10000) ===
     'very_large': [
         'knapPI_1_5000_1000_1',
         'knapPI_2_5000_1000_1',
@@ -62,6 +79,21 @@ PISINGER_INSTANCES = {
         'knapPI_1_10000_1000_1',
         'knapPI_2_10000_1000_1',
         'knapPI_3_10000_1000_1',
+    ],
+    # === Instances Xiang (variees, de differentes tailles) ===
+    'xiang': [
+        'KP1',
+        'KP2',
+        'KP3',
+        'KP4',
+        'KP5',
+        'KP6',
+        'KP7',
+        'KP8',
+        'KP9',
+        'KP10',
+        'KP11',
+        'KP12',
     ]
 }
 
@@ -81,9 +113,19 @@ class PisingerInstanceLoader:
     
     def _ensure_directories(self):
         """Crée les répertoires nécessaires"""
-        for category in ['small', 'medium', 'large', 'very_large']:
+        for category in PISINGER_INSTANCES.keys():
             path = os.path.join(self.data_dir, category)
             os.makedirs(path, exist_ok=True)
+    
+    def _get_url_for_instance(self, instance_name: str, category: str) -> str:
+        """Retourne l'URL correcte pour télécharger une instance"""
+        if category == 'low_dimensional':
+            return f"{GITHUB_RAW_BASE}/pisinger_instances_01_KP/low-dimensional/{instance_name}"
+        elif category == 'xiang':
+            return f"{GITHUB_RAW_BASE}/xiang_instances_01_KP/{instance_name}"
+        else:
+            # Instances large_scale (small, medium, large, very_large)
+            return f"{GITHUB_RAW_BASE}/pisinger_instances_01_KP/large_scale/{instance_name}"
     
     def download_instance(self, instance_name: str, category: str = None) -> bool:
         """
@@ -91,7 +133,7 @@ class PisingerInstanceLoader:
         
         Args:
             instance_name: Nom de l'instance (ex: 'knapPI_1_100_1000_1')
-            category: Catégorie de l'instance (small, medium, large, very_large)
+            category: Catégorie de l'instance (small, medium, large, very_large, low_dimensional, xiang)
             
         Returns:
             True si succès, False sinon
@@ -100,12 +142,12 @@ class PisingerInstanceLoader:
         if category is None:
             category = self._guess_category(instance_name)
         
-        url = f"{GITHUB_RAW_BASE}/{instance_name}"
+        url = self._get_url_for_instance(instance_name, category)
         filepath = os.path.join(self.data_dir, category, f"{instance_name}.txt")
         
         # Ne pas retélécharger si le fichier existe déjà
         if os.path.exists(filepath):
-            print(f"[OK] Instance déjà présente: {instance_name}")
+            print(f"[OK] Instance deja presente: {instance_name}")
             return True
         
         try:
